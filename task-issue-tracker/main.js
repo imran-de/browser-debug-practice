@@ -36,6 +36,12 @@ const closeIssue = id => {
 }
 
 const deleteIssue = id => {
+  const response = confirm('Are you sure to remove the issue!!');
+  if (!response) {
+    // console.log("user don't want to remove it")
+    // if user don't want to remove the issue we can't procced anymore the function
+    return;
+  }
   const issues = JSON.parse(localStorage.getItem('issues'));
   const remainingIssues = issues.filter(issue => parseInt(issue.id) !== id)
   localStorage.setItem('issues', JSON.stringify(remainingIssues));
