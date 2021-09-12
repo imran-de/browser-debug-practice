@@ -30,7 +30,6 @@ const showImages = (images) => {
 
 const getImages = (query) => {
   const url = `https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`
-  console.log(url);
   fetch(url)
     .then(response => response.json())
     .then(data => showImages(data.hits))
@@ -115,6 +114,10 @@ searchBtn.addEventListener('click', function () {
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
   const search = document.getElementById('search');
+  if (!search.value) {
+    console.log('false')
+    return;
+  }
   getImages(search.value)
   sliders.length = 0;
 })
