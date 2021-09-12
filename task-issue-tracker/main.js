@@ -8,6 +8,12 @@ function submitIssue(e) {
   const id = Math.floor(Math.random() * 100000000) + '';
   const status = 'Open';
 
+  //verify input value
+  if (!description && !assignedTo) {
+    //if value is empty we can go ahead, stop here function
+    return;
+  }
+
   const issue = { id, description, severity, assignedTo, status };
   let issues = [];
   if (localStorage.getItem('issues')) {
@@ -31,8 +37,9 @@ const closeIssue = id => {
 
 const deleteIssue = id => {
   const issues = JSON.parse(localStorage.getItem('issues'));
-  const remainingIssues = issues.filter(issue.id !== id)
+  const remainingIssues = issues.filter(issue => parseInt(issue.id) !== id)
   localStorage.setItem('issues', JSON.stringify(remainingIssues));
+  fetchIssues();
 }
 
 const fetchIssues = () => {
@@ -49,7 +56,7 @@ const fetchIssues = () => {
                               <h3> ${description} </h3>
                               <p><span class="glyphicon glyphicon-time"></span> ${severity}</p>
                               <p><span class="glyphicon glyphicon-user"></span> ${assignedTo}</p>
-                              <a href="#" onclick="closeIssue(${id})" ${status !== 'Open' ? 'disabled' : 'disable =false'} class="btn btn-warning">Close</a>
+                              <a href="#" onclick="closeIssue(${id})" ${status !== 'Open' ? 'disabled' : 'disable =false'} class="btn btn-warning">${status !== 'Open' ? 'Closed' : 'Close'}</a>
                               <a href="#" onclick="deleteIssue(${id})" class="btn btn-danger">Delete</a>
                               </div>`;
   }
